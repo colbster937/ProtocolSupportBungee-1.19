@@ -55,8 +55,8 @@ repositories {
 }
 
 dependencies {
-	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
-	compile group: 'it.unimi.dsi', name: 'fastutil', version: '8.2.2'
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+	compile group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.8'
 
 	compileOnly ManualGradleDependencySupplier.supplyDependecies(
 		projectDirectoryPath.resolve('libraries_runtime'),
