@@ -12,7 +12,12 @@ import protocolsupport.utils.Utils;
 
 public enum ProtocolVersion {
 
-	MINECRAFT_FUTURE(-1, new OrderId(ProtocolType.PC, 36)),
+	MINECRAFT_FUTURE(-1, new OrderId(ProtocolType.PC, 41)),
+	MINECRAFT_1_19(759, new OrderId(ProtocolType.PC, 40), "1.19"),
+	MINECRAFT_1_18_2(758, new OrderId(ProtocolType.PC, 39), "1.18.2"),
+	MINECRAFT_1_18(757, new OrderId(ProtocolType.PC, 38), "1.18"),
+	MINECRAFT_1_17_1(756, new OrderId(ProtocolType.PC, 37), "1.17.1"),
+	MINECRAFT_1_17(755, new OrderId(ProtocolType.PC, 36), "1.17"),
 	MINECRAFT_1_16_4(754, new OrderId(ProtocolType.PC, 35), "1.16.4"),
 	MINECRAFT_1_16_3(753, new OrderId(ProtocolType.PC, 34), "1.16.3"),
 	MINECRAFT_1_16_2(751, new OrderId(ProtocolType.PC, 33), "1.16.2"),
