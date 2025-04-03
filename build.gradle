@@ -17,13 +17,10 @@ plugins {
 
 apply plugin: 'org.hurricanegames.ManualGradleDependencySupplier'
 
-
 defaultTasks 'build'
 
-
-group 'protocolsupport'
-version '1.19-1'
-
+group = 'protocolsupport'
+version = '1.19-1'
 
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -33,11 +30,10 @@ import org.hurricanegames.manualgradledependencysupplier.DependencySupplier
 import org.hurricanegames.manualgradledependencysupplier.DownloadDependencySupplier
 import org.hurricanegames.manualgradledependencysupplier.ManualGradleDependencySupplier
 
-
 Path projectDirectoryPath = projectDir.toPath().toAbsolutePath()
 
-
 sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 sourceSets {
 	main {
@@ -55,8 +51,8 @@ repositories {
 }
 
 dependencies {
-	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
-	compile group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.8'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation 'it.unimi.dsi:fastutil:8.5.8'
 
 	compileOnly ManualGradleDependencySupplier.supplyDependecies(
 		projectDirectoryPath.resolve('libraries_runtime'),
@@ -72,20 +68,18 @@ dependencies {
 
 compileJava {
 	doFirst {
-	    classpath -= configurations.compileOnly
-	    classpath += configurations.compileOnly
+		classpath -= configurations.compileOnly
+		classpath += configurations.compileOnly
 	}
-
 	options.encoding = 'UTF-8'
 	options.incremental = false
 }
-
 
 shadowJar {
 	from sourceSets.main.java.srcDirs
 	from 'LICENSE'
 
-	archiveName = jar.archiveName
+	archiveFileName = jar.archiveFileName.get()
 
 	exclude 'META-INF/**'
 	relocate 'org.apache', 'protocolsupport.libs.org.apache'
@@ -94,17 +88,17 @@ shadowJar {
 	minimize()
 }
 
-
-task copyFinalJarToTarget(type: DefaultTask) {doLast{
-	Path targetJarDirectory = projectDirectoryPath.resolve("target")
-	Files.createDirectories(targetJarDirectory)
-	Files.copy(
-		shadowJar.archivePath.toPath().toAbsolutePath(),
-		targetJarDirectory.resolve(shadowJar.baseName + '.jar'),
-		java.nio.file.StandardCopyOption.REPLACE_EXISTING
-	)
-}}
-
+task copyFinalJarToTarget(type: DefaultTask) {
+	doLast {
+		Path targetJarDirectory = projectDirectoryPath.resolve("target")
+		Files.createDirectories(targetJarDirectory)
+		Files.copy(
+			shadowJar.archiveFile.get().asFile.toPath(),
+			targetJarDirectory.resolve(shadowJar.archiveBaseName.get() + '.jar'),
+			java.nio.file.StandardCopyOption.REPLACE_EXISTING
+		)
+	}
+}
 
 jar.enabled = false
 jar.finalizedBy(shadowJar)
